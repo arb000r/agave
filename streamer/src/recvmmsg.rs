@@ -108,6 +108,20 @@ pub fn recv_mmsg(sock: &UdpSocket, packets: &mut [Packet]) -> io::Result</*num p
         });
 
         #[cfg(not(target_env = "musl"))]
+        {
+            println!("TARGET ENV IS NOT MUSL");
+            let var = env::var("CARGO_CFG_TARGET_ENV").unwrap();
+            println!("ENV: {}", var);
+        }
+
+        #[cfg(target_env = "musl")]
+        {
+            println!("TARGET ENV IS MUSL");
+            let var = env::var("CARGO_CFG_TARGET_ENV").unwrap();
+            println!("ENV: {}", var);
+        }
+
+        #[cfg(not(target_env = "musl"))]
         let msg_hdr = msghdr {
             msg_name: addr.as_mut_ptr() as *mut _,
             msg_namelen: SOCKADDR_STORAGE_SIZE as socklen_t,
